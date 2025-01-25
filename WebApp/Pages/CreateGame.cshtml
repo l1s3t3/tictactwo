@@ -1,0 +1,63 @@
+﻿@page
+@model WebApp.Pages.CreateGame
+
+<link rel="stylesheet" href="~/css/site.css" />
+
+<div class="create-game-container">
+    <h1 class="gradient-heading">Create New Game</h1>
+
+    <div class="message-block">The classical game configuration is default!
+        Choose a name for your game and start playing or create a new game with your own configuration.
+    </div>
+
+    <form method="post" class="form-container p-4 rounded shadow">
+        <input type="hidden" name="UserName" value="@Model.UserName" />
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="form-group">
+            <label>Game Name:</label>
+            <input asp-for="NewGameName" class="form-control" required/>
+            <span asp-validation-for="NewGameName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Board Width:</label>
+            <input asp-for="BoardWidth" class="form-control" min="1" max="14"/>
+            <span asp-validation-for="BoardWidth" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Board Height:</label>
+            <input asp-for="BoardHeight" class="form-control" min="1" max="14"/>
+            <span asp-validation-for="BoardHeight" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Grid Size:</label>
+            <input asp-for="GridSize" class="form-control" required min="1" max="13"/>
+            <span asp-validation-for="GridSize" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Starting Player:</label>
+            <select asp-for="StartingPlayer" class="form-select" asp-items="Model.StartingPlayerSelectList"></select>
+            <span asp-validation-for="StartingPlayer" class="text-danger"></span>
+        </div>
+
+        <div>
+            <label>AI game modes:</label><br/>
+            <input type="radio" id="PvAI" name="GameMode" value="PvAI"/>
+            <label for="PvAI">Player vs AI</label><br/>
+
+            <input type="radio" id="AIvAI" name="GameMode" value="AIvAI"/>
+            <label for="AIvAI">AI vs AI</label><br/>
+        </div>
+
+
+
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-primary">Create Game</button>
+            <a asp-page="./Home" asp-route-UserName="@Model.UserName" class="btn btn-secondary back-button">Back to Home</a>
+        </div>
+    </form>
+</div>

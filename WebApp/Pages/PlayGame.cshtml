@@ -1,0 +1,258 @@
+﻿@page
+@using DTO
+@model WebApp.Pages.PlayGame
+
+<div class="main-page-container">
+    <h2>You are playing <strong>@Model.GameName</strong>!</h2>
+    <link rel="stylesheet" href="~/css/site.css"/>
+
+    <h3>Player X: @Model.PlayerX</h3>
+    <h3>Player O: @Model.PlayerO</h3>
+</div>
+@if (Model.ShowSelectionForm && (Model.PlayerO == null || Model.PlayerX == null))
+{
+    <form method="get">
+        <div class="message-block">
+            <label>Select your piece:</label><br/>
+            @if (string.IsNullOrEmpty(Model.PlayerX))
+            {
+                <input type="radio" id="pieceX" name="SelectedPiece" value="@EGamePiece.X" required/>
+                <label for="pieceX">X</label>
+                <br/>
+            }
+            @if (string.IsNullOrEmpty(Model.PlayerO))
+            {
+                <input type="radio" id="pieceO" name="SelectedPiece" value="@EGamePiece.O" required/>
+                <label for="pieceO">O</label>
+                <br/>
+            }
+            <input type="hidden" name="UserName" value="@Model.UserName"/>
+            <input type="hidden" name="GameName" value="@Model.GameName"/>
+            <button type="submit" class="btn btn-primary">Join Game!</button>
+        </div>
+    </form>
+}
+else
+{
+    if (!string.IsNullOrEmpty(Model.Message))
+    {
+        <p class="message-block"><strong>@Model.Message</strong></p>
+    }
+
+    if (!string.IsNullOrWhiteSpace(Model.Error))
+    {
+        <div class="alert alert-danger" role="alert" align="center">
+            @Model.Error
+        </div>
+    }
+
+    bool gameEnded = Model.Message == "The game is a tie!" || Model.Message.Contains("wins");
+
+    if (!gameEnded)
+    {
+        <p class="message-block">It is <strong>@Model.CurrentPlayer's</strong> turn! You have
+            <strong>@Model.PiecesLeft</strong> pieces left
+        </p>
+
+        @if (Model.AiVsAi)
+        {
+            <form method="post">
+                <div align="center">
+                    <input type="hidden" name="UserName" value="@Model.UserName"/>
+                    <input type="hidden" name="GameName" value="@Model.GameName"/>
+                    <input type="hidden" name="AiVsAi" value="@(Model.AiVsAi ? "true" : "false")"/>
+                    <button class="btn btn-primary" type="submit" name="AinextMove" value="true">AI´s next move!
+                    </button>
+                </div>
+            </form>
+        }
+    }
+    else
+    {
+        <p class="message-block">The game has ended. Please return to the home page or start a new game.</p>
+        <div align="center">
+            <a asp-page="./Home" asp-route-UserName="@Model.UserName" class="btn btn-primary">Back to Home</a>
+        </div>
+    }
+
+    <div class="game-container">
+        @if (!gameEnded && !Model.AiVsAi)
+        {
+            <div class="actions-container">
+                <h4>Press action:</h4>
+                <form method="post">
+                    <input type="hidden" name="UserName" value="@Model.UserName"/>
+                    <input type="hidden" name="GameName" value="@Model.GameName"/>
+                    <input type="hidden" name="PlayWithAI" value="@(Model.PlayWithAi ? "true" : "false")"/>
+                    <input type="hidden" name="AiVsAi" value="@(Model.AiVsAi ? "true" : "false")"/>
+                    <input type="hidden" name="SelectedPiece" value="@Model.SelectedPiece"/>
+
+                    @foreach (var action in Model.AvailableActions)
+                    {
+                        <button type="submit" name="MoveAction" value="@action"
+                                class="btn btn-action @(Model.MoveAction == action ? "selected-action" : "")">
+                            @action
+                        </button>
+                    }
+                </form>
+
+                @if (Model.MoveAction == "MoveGrid")
+                {
+                    <div class="move-grid-container">
+                        <h4>Select direction:</h4>
+                        <form method="post" id="moveGridForm">
+                            <input type="hidden" name="UserName" value="@Model.UserName"/>
+                            <input type="hidden" name="GameName" value="@Model.GameName"/>
+                            <input type="hidden" name="PlayWithAI" value="@(Model.PlayWithAi ? "true" : "false")"/>
+                            <input type="hidden" name="AiVsAi" value="@(Model.AiVsAi ? "true" : "false")"/>
+                            <input type="hidden" name="SelectedPiece" value="@Model.SelectedPiece"/>
+                            <input type="hidden" name="MoveAction" value="MoveGrid"/>
+
+                            <div class="grid-controls">
+                                <div class="grid-row">
+                                    <button type="submit" name="SelectedDirection" value="UpLeft" class="grid-button">
+                                        ↖
+                                    </button>
+                                    <button type="submit" name="SelectedDirection" value="Up" class="grid-button">⬆
+                                    </button>
+                                    <button type="submit" name="SelectedDirection" value="UpRight" class="grid-button">
+                                        ↗
+                                    </button>
+                                </div>
+                                <div class="grid-row">
+                                    <button type="submit" name="SelectedDirection" value="Left" class="grid-button">⬅
+                                    </button>
+                                    <button type="submit" disabled class="grid-button grid-button-center"></button>
+                                    <button type="submit" name="SelectedDirection" value="Right" class="grid-button">➡
+                                    </button>
+                                </div>
+                                <div class="grid-row">
+                                    <button type="submit" name="SelectedDirection" value="DownLeft" class="grid-button">
+                                        ↙
+                                    </button>
+                                    <button type="submit" name="SelectedDirection" value="Down" class="grid-button">⬇
+                                    </button>
+                                    <button type="submit" name="SelectedDirection" value="DownRight" class="grid-button">↘
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                }
+            </div>
+        }
+
+        <div class="game-board-container">
+            <table class="game-board">
+                <tr>
+                    <th></th>
+                    @for (int x = 0; x < Model.GameBoard.GetLength(0); x++)
+                    {
+                        <th>@x</th>
+                    }
+                </tr>
+                @for (int y = 0; y < Model.GameBoard.GetLength(1); y++)
+                {
+                    <tr>
+                        <th>@y</th>
+                        @for (int x = 0; x < Model.GameBoard.GetLength(0); x++)
+                        {
+                            var cellClass = "board-cell ";
+                            bool isWithinGrid = Model.IsWithinGrid(x, y);
+
+                            if (Model.GameBoard[x, y] == EGamePiece.Empty)
+                            {
+                                cellClass += isWithinGrid ? "grid-cell" : "empty-cell";
+                            }
+                            else if (Model.GameBoard[x, y] == EGamePiece.X)
+                            {
+                                cellClass += "piece-x";
+                            }
+                            else if (Model.GameBoard[x, y] == EGamePiece.O)
+                            {
+                                cellClass += "piece-o";
+                            }
+
+                            if (Model.IsSelectingPieceToMove && Model.FromX == x && Model.FromY == y)
+                            {
+                                cellClass += " selected-piece";
+                            }
+
+                            <td class="@cellClass">
+                                @if (Model.GameBoard[x, y] == EGamePiece.Empty)
+                                {
+                                    if (isWithinGrid && Model.MoveAction == "PlacePiece" &&
+                                        ((Model.CurrentPlayer == EGamePiece.X && Model.UserName == Model.PlayerX) ||
+                                         (Model.CurrentPlayer == EGamePiece.O && Model.UserName == Model.PlayerO)))
+                                    {
+                                        <form method="post" class="formClass">
+                                            <input type="hidden" name="UserName" value="@Model.UserName"/>
+                                            <input type="hidden" name="GameName" value="@Model.GameName"/>
+                                            <input type="hidden" name="PlayWithAI" value="@(Model.PlayWithAi ? "true" : "false")"/>
+                                            <input type="hidden" name="AiVsAi" value="@(Model.AiVsAi ? "true" : "false")"/>
+                                            <input type="hidden" name="SelectedPiece" value="@Model.SelectedPiece"/>
+                                            <input type="hidden" name="X" value="@x"/>
+                                            <input type="hidden" name="Y" value="@y"/>
+                                            <input type="hidden" name="MoveAction" value="PlacePiece"/>
+                                            <input type="hidden" name="SelectedPiece" value="@Model.SelectedPiece"/>
+                                            <button type="submit" class="cell-button"></button>
+                                        </form>
+                                    }
+                                    else if (isWithinGrid && Model.MoveAction == "MovePiece" && Model.IsSelectingPieceToMove &&
+                                             Model.FromX.HasValue && Model.FromY.HasValue &&
+                                             ((Model.CurrentPlayer == EGamePiece.X && Model.UserName == Model.PlayerX) ||
+                                              (Model.CurrentPlayer == EGamePiece.O && Model.UserName == Model.PlayerO)))
+                                    {
+                                        <form method="post" class="formClass">
+                                            <input type="hidden" name="UserName" value="@Model.UserName"/>
+                                            <input type="hidden" name="GameName" value="@Model.GameName"/>
+                                            <input type="hidden" name="PlayWithAI" value="@(Model.PlayWithAi ? "true" : "false")"/>
+                                            <input type="hidden" name="AiVsAi" value="@(Model.AiVsAi ? "true" : "false")"/>
+                                            <input type="hidden" name="SelectedPiece" value="@Model.SelectedPiece"/>
+                                            <input type="hidden" name="FromX" value="@Model.FromX"/>
+                                            <input type="hidden" name="FromY" value="@Model.FromY"/>
+                                            <input type="hidden" name="X" value="@x"/>
+                                            <input type="hidden" name="Y" value="@y"/>
+                                            <input type="hidden" name="MoveAction" value="MovePiece"/>
+                                            <input type="hidden" name="IsSelectingPieceToMove" value="true"/>
+                                            <input type="hidden" name="SelectedPiece" value="@Model.SelectedPiece"/>
+                                            <button type="submit" class="cell-button"></button>
+                                        </form>
+                                    }
+                                }
+                                else
+                                {
+                                    @if (Model.MoveAction == "MovePiece" && !Model.IsSelectingPieceToMove &&
+                                         Model.GameBoard[x, y] == Model.CurrentPlayer &&
+                                         ((Model.CurrentPlayer == EGamePiece.X && Model.UserName == Model.PlayerX) ||
+                                          (Model.CurrentPlayer == EGamePiece.O && Model.UserName == Model.PlayerO)))
+                                    {
+                                        <form method="post" class="formClass">
+                                            <input type="hidden" name="UserName" value="@Model.UserName"/>
+                                            <input type="hidden" name="GameName" value="@Model.GameName"/>
+                                            <input type="hidden" name="PlayWithAI" value="@(Model.PlayWithAi ? "true" : "false")"/>
+                                            <input type="hidden" name="AiVsAi" value="@(Model.AiVsAi ? "true" : "false")"/>
+                                            <input type="hidden" name="SelectedPiece" value="@Model.SelectedPiece"/>
+                                            <input type="hidden" name="X" value="@x"/>
+                                            <input type="hidden" name="Y" value="@y"/>
+                                            <input type="hidden" name="MoveAction" value="MovePiece"/>
+                                            <input type="hidden" name="IsSelectingPieceToMove" value="@Model.IsSelectingPieceToMove"/>
+                                            <input type="hidden" name="FromX" value="@Model.FromX"/>
+                                            <input type="hidden" name="FromY" value="@Model.FromY"/>
+                                            <input type="hidden" name="SelectedPiece" value="@Model.SelectedPiece"/>
+                                            <button type="submit" class="cell-button">@Model.GameBoard[x, y]</button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        @Model.GameBoard[x, y]
+                                    }
+                                }
+                            </td>
+                        }
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+}

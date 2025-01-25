@@ -1,0 +1,25 @@
+﻿@page
+@model WebApp.Pages.Rules
+
+<link rel="stylesheet" href="~/css/site.css" />
+
+<div class="header-container">
+    <h1 class="gradient-heading">Game Rules</h1>
+</div>
+
+<div class="message-block">
+    <p><strong>Tic-Tac-Two Rules:</strong></p>
+    <p>Tic-Tac-Two is played on a board with a movable tic-tac-toe grid, which is at first centered at the center of the board.</p>
+    <p>The players <strong>"X"</strong> and <strong>"O"</strong> have both <em>gridSize + 1</em> pieces to place.</p>
+    <p>At the start, each player takes turns placing one of their pieces on any empty cell within the tic-tac-toe grid.</p>
+    <p>Once each player has placed at least two of their pieces, they may do one of three things on their turn:</p>
+    <ul>
+        <li>Place one of their remaining pieces on an empty cell within the tic-tac-toe grid,</li>
+        <li>Move the tic-tac-toe grid any available ways away from the cell it was originally centered at, or</li>
+        <li>Move one of their pieces that is on the board or grid to any empty cell within the grid.</li>
+    </ul>
+    <p>The first player to create a horizontal, vertical, or diagonal line of their pieces in the tic-tac-toe grid wins.</p>
+    <div class="mt-4">
+        <a asp-page="/Home" asp-route-UserName="@Model.UserName" class="btn btn-primary">Return to Home</a>
+    </div>
+</div>

@@ -1,0 +1,53 @@
+﻿@page
+@model WebApp.Pages.AllGames
+
+<link rel="stylesheet" href="~/css/site.css"/>
+
+<div class="header-container">
+    <h1 class="gradient-heading">All the games you may either join or watch!</h1>
+</div>
+
+
+<table class="game-table">
+    <thead>
+    <tr>
+        <th>Game Name</th>
+        <th>Action</th>
+        @if (Model.UserName == "admin")
+        {
+            <th>Admin Options</th>
+        }
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var game in Model.Games)
+    {
+        <tr>
+            <td>@game</td>
+            <td>
+                <div class="button-group">
+                    <form method="post" asp-page-handler="Play" asp-route-gameName="@game">
+                        <input type="hidden" name="UserName" value="@Model.UserName"/>
+                        <button type="submit" class="btn btn-primary">Play</button>
+                    </form>
+                </div>
+            </td>
+            @if (Model.UserName == "admin")
+            {
+                <td>
+                    <div class="button-group">
+                        <form method="post" asp-page-handler="Delete" asp-route-gameName="@game" onsubmit="return confirm('Are you sure you want to delete @game?');">
+                            <input type="hidden" name="UserName" value="@Model.UserName" />
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </td>
+            }
+        </tr>
+    }
+    </tbody>
+</table>
+
+<div class="mt-3">
+    <a asp-page="./Home" asp-route-UserName="@Model.UserName" class="btn btn-secondary">Back to Home</a>
+</div>

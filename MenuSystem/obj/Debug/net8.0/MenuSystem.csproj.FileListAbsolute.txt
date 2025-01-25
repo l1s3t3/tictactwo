@@ -1,0 +1,15 @@
+C:\Users\liset\RiderProjects\icd0008-24f\tic-tac-two\MenuSystem\bin\Debug\net8.0\MenuSystem.deps.json
+C:\Users\liset\RiderProjects\icd0008-24f\tic-tac-two\MenuSystem\bin\Debug\net8.0\MenuSystem.dll
+C:\Users\liset\RiderProjects\icd0008-24f\tic-tac-two\MenuSystem\bin\Debug\net8.0\MenuSystem.pdb
+C:\Users\liset\RiderProjects\icd0008-24f\tic-tac-two\MenuSystem\obj\Debug\net8.0\MenuSystem.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\liset\RiderProjects\icd0008-24f\tic-tac-two\MenuSystem\obj\Debug\net8.0\MenuSystem.AssemblyInfoInputs.cache
+C:\Users\liset\RiderProjects\icd0008-24f\tic-tac-two\MenuSystem\obj\Debug\net8.0\MenuSystem.AssemblyInfo.cs
+C:\Users\liset\RiderProjects\icd0008-24f\tic-tac-two\MenuSystem\obj\Debug\net8.0\MenuSystem.csproj.CoreCompileInputs.cache
+C:\Users\liset\RiderProjects\icd0008-24f\tic-tac-two\MenuSystem\obj\Debug\net8.0\MenuSystem.dll
+C:\Users\liset\RiderProjects\icd0008-24f\tic-tac-two\MenuSystem\obj\Debug\net8.0\refint\MenuSystem.dll
+C:\Users\liset\RiderProjects\icd0008-24f\tic-tac-two\MenuSystem\obj\Debug\net8.0\MenuSystem.pdb
+C:\Users\liset\RiderProjects\icd0008-24f\tic-tac-two\MenuSystem\obj\Debug\net8.0\ref\MenuSystem.dll
+C:\Users\liset\RiderProjects\icd0008-24f\tic-tac-two\MenuSystem\bin\Debug\net8.0\GameBrain.dll
+C:\Users\liset\RiderProjects\icd0008-24f\tic-tac-two\MenuSystem\bin\Debug\net8.0\GameBrain.pdb
+C:\Users\liset\RiderProjects\icd0008-24f\tic-tac-two\MenuSystem\obj\Debug\net8.0\MenuSystem.csproj.AssemblyReference.cache
+C:\Users\liset\RiderProjects\icd0008-24f\tic-tac-two\MenuSystem\obj\Debug\net8.0\MenuSystem.csproj.Up2Date

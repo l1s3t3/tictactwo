@@ -1,0 +1,11 @@
+C:\Users\liset\RiderProjects\icd0008-24f\tic-tac-two\DTO\bin\Debug\net9.0\DTO.deps.json
+C:\Users\liset\RiderProjects\icd0008-24f\tic-tac-two\DTO\bin\Debug\net9.0\DTO.dll
+C:\Users\liset\RiderProjects\icd0008-24f\tic-tac-two\DTO\bin\Debug\net9.0\DTO.pdb
+C:\Users\liset\RiderProjects\icd0008-24f\tic-tac-two\DTO\obj\Debug\net9.0\DTO.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\liset\RiderProjects\icd0008-24f\tic-tac-two\DTO\obj\Debug\net9.0\DTO.AssemblyInfoInputs.cache
+C:\Users\liset\RiderProjects\icd0008-24f\tic-tac-two\DTO\obj\Debug\net9.0\DTO.AssemblyInfo.cs
+C:\Users\liset\RiderProjects\icd0008-24f\tic-tac-two\DTO\obj\Debug\net9.0\DTO.csproj.CoreCompileInputs.cache
+C:\Users\liset\RiderProjects\icd0008-24f\tic-tac-two\DTO\obj\Debug\net9.0\DTO.dll
+C:\Users\liset\RiderProjects\icd0008-24f\tic-tac-two\DTO\obj\Debug\net9.0\refint\DTO.dll
+C:\Users\liset\RiderProjects\icd0008-24f\tic-tac-two\DTO\obj\Debug\net9.0\DTO.pdb
+C:\Users\liset\RiderProjects\icd0008-24f\tic-tac-two\DTO\obj\Debug\net9.0\ref\DTO.dll
